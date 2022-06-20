@@ -6,9 +6,12 @@ namespace Best_Time_to_Buy_and_Sell_Stock
   {
     static void Main(string[] args)
     {
-      Console.WriteLine("Hello World!");
       // test input
       // [2,1,2,1,0,1,2]
+      Solution s = new Solution();
+      var prices = new int[] { 2, 1, 2, 1, 0, 1, 2 };
+      var answer = s.MaxProfit(prices);
+      Console.WriteLine(answer);
     }
   }
 
@@ -16,29 +19,29 @@ namespace Best_Time_to_Buy_and_Sell_Stock
   {
     public int MaxProfit(int[] prices)
     {
-      if (prices.Length == 1) return 0;
-      int max = 0;
-      int l = 0; // buying index
-      int r = 1; // selling index
-      while (r < prices.Length)
+      // the basic of getting profit is find the day when the buying cost is min and try to max your profit until you get a day when selling price is max
+      // Step - 1 - keep a min pointer to track the min buying cost
+      // Step - 2 - at each index check we have found new min ? if no, oviously we can get profit, but is the new profit is better than the last ? yes, then update
+      // [2,1,2,1,0,1,2]
+      int min = int.MaxValue;
+      int maxProfit = int.MinValue;
+      for(int i = 0; i < prices.Length; i++)
       {
-        // as you will be buying first and after that you will sell, so profit (r - l)
-        int buyPrice = prices[l];
-        int sellPrice = prices[r];
-        if (buyPrice < sellPrice)
+        int current = prices[i];
+        //Step - 1
+        if (current < min)
         {
-          int profit = sellPrice - buyPrice;
-          max = Math.Max(max, profit);
+          min = current;
         }
         else
         {
-          // when your sell price is less than buying price, we have to but in that price to max profit
-          l = r;
+          //Step - 2 
+          int currentProfit = current - min;
+          maxProfit = Math.Max(maxProfit, currentProfit);
         }
-        r++;
       }
 
-      return max;
+      return maxProfit;
     }
   }
 
