@@ -24,21 +24,14 @@ namespace Best_Time_to_Buy_and_Sell_Stock
       // Step - 2 - at each index check we have found new min ? if no, oviously we can get profit, but is the new profit is better than the last ? yes, then update
       // [2,1,2,1,0,1,2]
       int min = int.MaxValue;
-      int maxProfit = int.MinValue;
+      int maxProfit = 0;
       for(int i = 0; i < prices.Length; i++)
       {
         int current = prices[i];
         //Step - 1
-        if (current < min)
-        {
-          min = current;
-        }
-        else
-        {
-          //Step - 2 
-          int currentProfit = current - min;
-          maxProfit = Math.Max(maxProfit, currentProfit);
-        }
+        min = Math.Min(min, current);
+        //Step - 2 
+        maxProfit = Math.Max(maxProfit, current - min);
       }
 
       return maxProfit;
